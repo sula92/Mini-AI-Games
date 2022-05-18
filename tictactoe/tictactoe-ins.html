@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Tic Tac Toe</title>
+        
+        <link rel="stylesheet" href="style.css">
+      
+        <link rel="stylesheet" href="bootstrap.min.css">
+        <link rel="stylesheet" href="w3.css">
+        <script src="jquery.min.js"></script>
+        <script src="bootstrap.min.js"></script>
+      
+      </head>
+      
+
+<body>
+
+    <div class="w3-bar w3-black">
+        <a href="../index.html" class="w3-bar-item w3-button">Home</a>
+        <a href="index.html" class="w3-bar-item w3-button">Back To Game</a>
+      </div>
+<div class="w3-container">
+  <h1>Instructions For Tic Tac Toe</h1>
+</div>
+
+<div style="text-align:center"> 
+    <button onclick="playPause()">Play/Pause</button> 
+    <button onclick="makeBig()">Big</button>
+    <button onclick="makeSmall()">Small</button>
+    <button onclick="makeNormal()">Normal</button>
+    <br><br>
+    <video id="video1" width="420">
+      <source src="../videos/tictac.mp4" type="video/mp4">
+      <source src="mov_bbb.ogg" type="video/ogg">
+      Your browser does not support HTML video.
+    </video>
+  </div>
+
+  <script> 
+    var myVideo = document.getElementById("video1"); 
+    
+    function playPause() { 
+      if (myVideo.paused) 
+        myVideo.play(); 
+      else 
+        myVideo.pause(); 
+    } 
+    
+    function makeBig() { 
+        myVideo.width = 560; 
+    } 
+    
+    function makeSmall() { 
+        myVideo.width = 320; 
+    } 
+    
+    function makeNormal() { 
+        myVideo.width = 420; 
+    } 
+    </script> 
+
+<script>
+  var message = document.querySelector('#msg');
+  var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition; //recognize voice
+  // var SpeechGrammerList =  SpeechGrammarList || window.webkitSpeechGrammarList; //recognize grammer
+  var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+  // var speechRecognitionList = new SpeechGrammarList();
+
+  var grammer = '#JSGF V1.0'; //type of the grammer we use
+
+  var recognition = new SpeechRecognition();
+  // var speechRecoGrammerlist = new SpeechGrammerList();
+  // speechRecoGrammerlist.addFromString(grammer, 1); //provide grammer information
+
+  // recognition.grammers = speechRecoGrammerlist;
+  recognition.lang = 'en-US'; //Specify lang but not compulsory
+  recognition.interimResults = false;
+
+  recognition.onresult = function(event){//when recoginzer reconize correct commands
+      var last = event.results.length - 1;
+      var command = event.results[last][0].transcript;
+    
+      //alert(command);
+
+      if (command.toLowerCase().includes("play")){
+          alert(command);
+          var myVideo1 = document.getElementById("video1");
+          myVideo1.play();
+         // recognition.start();        
+      }
+      else if (command.toLowerCase().includes("pause")){
+          // document.querySelector('#what').checked = true;
+          selectSym('O'); 
+          recognition.start();   
+      }
+      else if (command.toLowerCase().includes("reset")||command.toLowerCase().includes("replay")||command.toLowerCase().includes("reload")||command.toLowerCase().includes("again")){
+          // document.querySelector('#what').checked = true;
+          makeBig();   
+      }
+      else if (command.toLowerCase().includes("back")||command.toLowerCase().includes("game")||command.toLowerCase().includes("go back")){
+          // document.querySelector('#what').checked = true;
+          window.location = 'index.html';    
+      }
+      else if (command.toLowerCase().includes("normal")||command.toLowerCase().includes("medium")){
+          // document.querySelector('#what').checked = true;
+          myVideo.width = 420;   
+      }
+      else{
+          message.textContent = 'Voice Input Not Match: ' + vcmd + '.';
+      }
+  };
+
+  recognition.onspeechend = function(){ //when speech end, recogintion stop
+      recognition.stop();
+  };
+
+  recognition.onerror = function(event){ //when any error raised, set a message
+      message.textContent = 'Error in recognition: ' + event.error;
+  };
+
+ 
+
+      window.onload = function() {
+        recognition.start();
+  
+      };
+
+   
+</script>
+    
+
+</body>
+</html>
+

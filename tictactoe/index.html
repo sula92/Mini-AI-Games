@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Tic Tac Toe</title>
+  
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <link rel="stylesheet" href="w3.css">
+  <script src="jquery.min.js"></script>
+  <script src="bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+<!-- Navbar -->
+<div class="w3-top w3-display-container">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="../index.html" class="w3-bar-item w3-button w3-padding-large">HOME</a>
+    
+    
+     <a href="tictactoe-ins.html" class="w3-bar-item w3-button w3-padding-large">HOW TO PLAY</a>
+    
+   <a href="goos.php" class="w3-bar-item w3-button w3-padding-large">INFO</a>
+   
+   
+   
+    <a href="javascript:void(0)" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
+  </div>
+</div>
+
+<!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+<div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
+  <a href="#about" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">HOME</a>
+  <a href="#map" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">DASHBOARD</a>
+  
+</div>  
+
+
+<div class="w3-container" style="margin-top: 55px;">
+  <h1>WELCOME TO TIC TAC TOE</h1>
+  <p>Human Brain VS AI</p>
+</div>
+
+<div class="w3-container">
+	<table class="w3-border" style="margin-top:150px">
+		<tr>
+			<td class="cell w3-hover-opacity w3-hover-red" id="0"></td>
+			<td class="cell w3-hover-opacity w3-hover-red" id="1"></td>
+			<td class="cell w3-hover-opacity w3-hover-red" id="2"></td>
+		</tr>
+		<tr>
+			<td class="cell w3-hover-opacity w3-hover-red" id="3"></td>
+			<td class="cell w3-hover-opacity w3-hover-red" id="4"></td>
+			<td class="cell w3-hover-opacity w3-hover-red" id="5"></td>
+		</tr>
+		<tr>
+			<td class="cell w3-hover-opacity w3-hover-red" id="6"></td>
+			<td class="cell w3-hover-opacity w3-hover-red" id="7"></td>
+			<td class="cell w3-hover-opacity w3-hover-red" id="8"></td>
+		</tr>
+	</table>
+
+        <div class="w3-panel"  style="margin-top:430px; width:20%; margin-left:540px">
+	<button class="w3-btn w3-block w3-teal" onClick="startGame()">Replay</button>
+       </div>         
+
+	<div class="endgame">
+		<div class="text"></div>
+	</div>
+    <div class = "selectSym" style="margin-top:75px">
+    <p>Select symbol:</p>
+      <button class="w3-purple" onClick="selectSym('X')">X</button>
+      <button class="w3-purple" onClick="selectSym('O')">O</button>
+    </div>
+   
+</div>
+  <script src="script.js"></script>
+
+  <script>
+    var message = document.querySelector('#msg');
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition; //recognize voice
+    // var SpeechGrammerList =  SpeechGrammarList || window.webkitSpeechGrammarList; //recognize grammer
+    var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+    // var speechRecognitionList = new SpeechGrammarList();
+  
+    var grammer = '#JSGF V1.0'; //type of the grammer we use
+  
+    var recognition = new SpeechRecognition();
+    // var speechRecoGrammerlist = new SpeechGrammerList();
+    // speechRecoGrammerlist.addFromString(grammer, 1); //provide grammer information
+  
+    // recognition.grammers = speechRecoGrammerlist;
+    recognition.lang = 'en-US'; //Specify lang but not compulsory
+    recognition.interimResults = false;
+  
+    recognition.onresult = function(event){//when recoginzer reconize correct commands
+        var last = event.results.length - 1;
+        var command = event.results[last][0].transcript;
+      
+        //alert(command);
+  
+        if (command.toLowerCase().includes("x")||command.toLowerCase().includes("axe")||command.toLowerCase().includes("ex")){
+            //alert("command");
+            selectSym('X');
+            recognition.start();        
+        }
+        else if (command.toLowerCase().includes("select o")||command.toLowerCase().includes("select ow")||command.toLowerCase().includes("ou")||command.toLowerCase().includes("circle")){
+            // document.querySelector('#what').checked = true;
+            selectSym('O'); 
+            recognition.start();   
+        }
+        else if (command.toLowerCase().includes("reset")||command.toLowerCase().includes("replay")||command.toLowerCase().includes("reload")||command.toLowerCase().includes("again")){
+            // document.querySelector('#what').checked = true;
+            location.reload()   
+        }
+        else if (command.toLowerCase().includes("back")||command.toLowerCase().includes("home")||command.toLowerCase().includes("go back")){
+            // document.querySelector('#what').checked = true;
+            window.location = '../index.html';    
+        }
+        else if (command.toLowerCase().includes("how")||command.toLowerCase().includes("instructions")){
+            // document.querySelector('#what').checked = true;
+            window.location = 'tictactoe-ins.html';    
+        }
+        else{
+            message.textContent = 'Voice Input Not Match: ' + vcmd + '.';
+        }
+    };
+  
+    recognition.onspeechend = function(){ //when speech end, recogintion stop
+        recognition.stop();
+    };
+  
+    recognition.onerror = function(event){ //when any error raised, set a message
+        message.textContent = 'Error in recognition: ' + event.error;
+    };
+  
+   
+  
+        window.onload = function() {
+          recognition.start();
+    
+        };
+  
+     
+  </script>
+
+</body>
+</html>
