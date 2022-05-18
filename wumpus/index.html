@@ -19,7 +19,7 @@
       </div>
 
       <div class="w3-container">
-        <h1>WELCOME TO WUMPUS WORLD</h1>
+        <center><h1>WELCOME TO WUMPUS WORLD</h1></center>
       </div>
 
       
@@ -53,34 +53,7 @@
     </tbody>
 </table>
 
-<table class="mboard">
-    <tbody>
-    <tr class="row4">
-        <td class="cell14"></td>
-        <td class="cell24"></td>
-        <td class="cell34"></td>
-        <td class="cell44"></td>
-    </tr>
-    <tr class="row3">
-        <td class="cell13"></td>
-        <td class="cell23"></td>
-        <td class="cell33"></td>
-        <td class="cell43"></td>
-    </tr>
-    <tr class="row2">
-        <td class="cell12"></td>
-        <td class="cell22"></td>
-        <td class="cell32"></td>
-        <td class="cell42"></td>
-    </tr>
-    <tr class="row1">
-        <td class="cell11"></td>
-        <td class="cell21"></td>
-        <td class="cell31"></td>
-        <td class="cell41"></td>
-    </tr>
-    </tbody>
-</table>
+
 </div>
 <div style="position: absolute; top: 300px; left: 610px;">
     <button  class="w3-btn w3-round-xxlarge w3-indigo" onclick="location.reload();">Reset Game</button>
@@ -175,13 +148,24 @@
       
         //alert(command);
   
-        if (command.toLowerCase().includes("tic")|| command.toLowerCase().includes("tac")||command.toLowerCase().includes("tik")||command.toLowerCase().includes("tak")){
+        if (command.toLowerCase().includes("start")){
             //alert("command");
-            window.location = "tictactoe/index.html";        
+            $("#startGame").click(function () {
+            setInterval(timer, 800);
+        });
+            recognition.start();        
         }
-        else if (command.toLowerCase().includes("world")|| command.toLowerCase().includes("wumpus")||command.toLowerCase().includes("bompus")){
+        else if (command.toLowerCase().includes("reset")||command.toLowerCase().includes("replay")||command.toLowerCase().includes("reload")||command.toLowerCase().includes("again")){
             // document.querySelector('#what').checked = true;
-            window.location = 'wumpus/index.html';    
+            location.reload()   
+        }
+        else if (command.toLowerCase().includes("back")||command.toLowerCase().includes("home")||command.toLowerCase().includes("go back")){
+            // document.querySelector('#what').checked = true;
+            window.location = '../index.html';    
+        }
+        else if (command.toLowerCase().includes("how")||command.toLowerCase().includes("instructions")){
+            // document.querySelector('#what').checked = true;
+            window.location = 'wumpus-ins.html';    
         }
         else{
             message.textContent = 'Voice Input Not Match: ' + vcmd + '.';
